@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai iOS Store - متجر تطبيقات iOS الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0A84FF;
+            --secondary-color: #5E5CE6;
+            --background-color: #1C1C1E;
+            --card-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --accent-color: #30D158;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+            --bot-color: #2C2C2E;
+            --user-color: #0A84FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            line-height: 1.6;
+            padding: 15px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            height: calc(100vh - 30px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-color);
+            box-shadow: var(--shadow);
+            border-radius: 16px;
+            position: sticky;
+            top: 15px;
+            z-index: 100;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .whatsapp { color: #25D366; }
+        .instagram { color: #E4405F; }
+        .telegram { color: #0088CC; }
+
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--bot-color);
+            border-bottom-right-radius: 4px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .app-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-suggestion {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .app-suggestion:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input {
+            flex: 1;
+            background-color: var(--background-color);
+            border: none;
+            border-radius: 24px;
+            padding: 12px 18px;
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .send-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .send-button:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background-color: var(--bot-color);
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-right-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-color);
+            opacity: 0.6;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            padding: 15px 0;
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .audio-control:hover {
+            transform: scale(1.1);
+            background: var(--secondary-color);
+        }
+
+        .audio-control.muted {
+            background: #ff4757;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .header-content {
+                padding: 12px 15px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .social-icons {
+                gap: 8px;
+            }
+
+            .social-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+
+            .chat-messages {
+                padding: 15px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .app-suggestions {
+                padding: 8px 15px;
+            }
+
+            .app-suggestion {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+
+            .chat-input-container {
+                padding: 12px 15px;
+            }
+
+            .audio-control {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                order: 1;
+            }
+            
+            .social-icons {
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Control Button -->
+    <button class="audio-control" id="audioControl">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="logo-text">Ai iOS Store</div>
+                </div>
+                
+                <div class="social-icons">
+                    <a href="https://wa.me/201550425843" class="social-icon whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://instagram.com/mhamedashrf.0" class="social-icon instagram" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/h_moh_za" class="social-icon telegram" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            
+            <div class="app-suggestions" id="appSuggestions">
+                <!-- App suggestion buttons will be dynamically inserted here -->
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="اكتب رسالتك هنا...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>© Mohamed Ashraf . All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // App data with features in Arabic
+        const appData = {
+            whatsapp: {
+                title: "WhatsApp",
+                features: [
+                    "تحويل كامل لواجهة واتساب أجهزة الآيفون",
+                    "إرسال رسائل غير محدودة بدون قيود",
+                    "مشاركة ملفات بحجم يصل إلى 2 جيجابايت",
+                    "مكالمات فيديو عالية الجودة مع 8 أشخاص",
+                    "نسخ احتياطي تلقائي للدردشات",
+                    "وضع الظلام المميز"
+                ]
+            },
+            instagram: {
+                title: "Instagram",
+                features: [
+                    "تحميل الصور والفيديوهات بجودة عالية",
+                    "تصفح بدون إعلانات مزعجة",
+                    "مشاهدة الستوريات بشكل سري",
+                    "واجهة مستخدم محسنة ومخصصة"
+                ]
+            },
+            telegram: {
+                title: "Telegram",
+                features: [
+                    "رسائل سرية ذاتية التدمير",
+                    "مكالمات صوت وفيديو عالية الجودة",
+                    "دعم مجموعات كبيرة حتى 200,000 عضو",
+                    "مزامنة فورية عبر جميع الأجهزة"
+                ]
+            },
+            tiktok: {
+                title: "TikTok",
+                features: [
+                    "تحميل الفيديوهات بدون علامة مائية",
+                    "مشاهدة الفيديوهات بدون مقاطعات",
+                    "الوصول إلى جميع المؤثرات مجاناً",
+                    "واجهة مستخدم محسنة وسريعة"
+                ]
+            },
+            capcut: {
+                title: "CapCut",
+                features: [
+                    "جميع المؤثرات والمرشحات متاحة مجاناً",
+                    "إزالة العلامة المائية تلقائياً",
+                    "دعم تصدير الفيديو بدقة 4K",
+                    "مكتبة موسيقى خلفية شاملة بدون قيود"
+                ]
+            },
+            inshot: {
+                title: "InShot",
+                features: [
+                    "تعديل الفيديو بدون علامة مائية",
+                    "جميع الملصقات والمرشحات متاحة",
+                    "إضافة موسيقى ومؤثرات صوتية متقدمة",
+                    "تصدير بدقة عالية مع معالجة سريعة"
+                ]
+            },
+            picsart: {
+                title: "Picsart",
+                features: [
+                    "جميع أدوات التحرير والمرشحات متاحة",
+                    "مكتبة ملصقات ورسومات غير محدودة",
+                    "إزالة الخلفية والخلفيات الذكية",
+                    "تصدير بدقة عالية بدون علامة مائية"
+                ]
+            },
+            youtube: {
+                title: "YouTube Premium",
+                features: [
+                    "مشاهدة الفيديوهات بدون إعلانات مزعجة",
+                    "تشغيل الفيديو في الخلفية",
+                    "تحميل الفيديوهات للمشاهدة بدون إنترنت",
+                    "دعم جودة الفيديو حتى 4K"
+                ]
+            },
+            spotify: {
+                title: "Spotify Premium",
+                features: [
+                    "الاستماع إلى الموسيقى بدون إعلانات",
+                    "تخطي الأغاني بدون حدود",
+                    "تحميل الأغاني للاستماع بدون إنترنت",
+                    "جودة صوت عالية وميزات تحكم متقدمة"
+                ]
+            },
+            thispc: {
+                title: "This PC",
+                features: [
+                    "واجهة مستخدم تشبه نظام Windows",
+                    "إدارة سهلة للملفات والمجلدات",
+                    "تشغيل التطبيقات في وضع الكمبيوتر",
+                    "تجربة مستخدم احترافية ومتقدمة"
+                ]
+            },
+            watchapps: {
+                title: "Cinema Tv Apps",
+                features: [
+                    "مشاهدة الأفلام والمسلسلات بدون إعلانات",
+                    "دعم محتوى الأنمي بجودة عالية",
+                    "جميع الميزات المميزة مفعلة مجاناً",
+                    "واجهة مستخدم محسنة وسهلة الاستخدام"
+                ]
+            },
+            iosapps: {
+                title: "iOS Apps",
+                features: [
+                    "مجموعة متنوعة من التطبيقات المميزة",
+                    "تحديثات مستمرة للتطبيقات",
+                    "واجهة بسيطة وسهلة الاستخدام",
+                    "دعم كامل لأحدث إصدارات iOS"
+                ]
+            }
+        };
+
+        // Common questions and answers
+        const commonQuestions = {
+            // Download related questions
+            "كيفية التحميل": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "كيف أحمل التطبيقات": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "طريقة التحميل": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "كيفية تحميل التطبيقات": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "ازاي أنزل التطبيقات": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "طريقة التنزيل": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "كيف أنزل التطبيق": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "طريقة التثبيت": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "كيفية التنزيل": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "ازاي احمل": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            
+            // English download questions
+            "how to download": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "download method": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "how can i download apps": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            "installation guide": "لتحميل أي تطبيق خاص بنا اضغط علي كلمة Get Now عند الضغط عليها سيقوم الموقع بتحويلك تلقائي الي صفحة التطبيق ستقوم بالنزول الي الأسفل وستجد كلمة App Details عند الضغط عليها ستجد كلمة Download اضغط عليها وستقوم بتحميل التطبيق",
+            
+            // General questions
+            "هل التطبيقات مجانية": "نعم، جميع التطبيقات في متجرنا مجانية تماماً ولا توجد أي تكاليف خفية",
+            "هل التطبيقات آمنة": "نعم، جميع التطبيقات آمنة وخالية من الفيروسات وتم اختبارها بعناية",
+            "كيف أتواصل مع الدعم": "يمكنك التواصل معنا عبر الواتساب، الإنستجرام، أو التليجرام من خلال الأيقونات الموجودة في الأعلى",
+            "متى يتم تحديث التطبيقات": "نقوم بتحديث التطبيقات بانتظام لضمان توافقها مع أحدث إصدارات iOS",
+            "مشكلة في التحميل": "إذا واجهتك أي مشكلة في التحميل، تأكد من اتصالك بالإنترنت وجرب استخدام متصفح مختلف أو اتصل بنا للمساعدة",
+            "هل التطبيقات قانونية": "نعم، جميع التطبيقات قانونية وآمنة للاستخدام",
+            "من المطور": "المطور هو محمد أشرف، يمكنك التواصل معه عبر وسائل التواصل الاجتماعي المذكورة",
+            
+            // Greetings and casual conversation
+            "ازيك": "الحمد لله، أنا بخير.. شكراً لسؤالك! ازاي أقدر أساعدك مع التطبيقات؟",
+            "السلام عليكم": "وعليكم السلام ورحمة الله وبركاته! أهلاً وسهلاً بك في متجر Ai iOS",
+            "اهلا": "أهلاً وسهلاً بك! كيف يمكنني مساعدتك اليوم؟",
+            "مرحبا": "مرحباً بك! أنا اليكسا، المساعدة الافتراضية لمتجر Ai iOS",
+            "صباح الخير": "صباح النور! أتمنى لك يوماً رائعاً. كيف يمكنني مساعدتك مع تطبيقاتنا؟",
+            "مساء الخير": "مساء النور! أهلاً بك في متجرنا. ازاي أقدر أساعدك؟",
+            "كيف الحال": "الحمد لله دائماً! أنا بخير وشغال علشان أساعدك. عندك استفسار عن أي تطبيق؟",
+            "شكرا": "العفو! دا واجبنا. لو عندك أي استفسار تاني، أنا موجودة علشانك",
+            "تمام": "أهلاً! أي حاجة تانيه تحتاج مساعدة فيها؟",
+            "ok": "حاضر! لو محتاج أي حاجة تانيه قول لي",
+            "hi": "Hello! Welcome to Ai iOS Store. How can I help you today?",
+            "hello": "Hi there! I'm Alexa, your virtual assistant. How can I assist you with our apps?"
+        };
+
+        // DOM Elements
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const appSuggestions = document.getElementById('appSuggestions');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const audioControl = document.getElementById('audioControl');
+
+        // Audio Control
+        let isAudioEnabled = true;
+
+        // Text to Speech Function
+        function playWelcomeMessage() {
+            if (!isAudioEnabled) return;
+            
+            if ('speechSynthesis' in window) {
+                // Stop any previous message
+                window.speechSynthesis.cancel();
+                
+                const message = new SpeechSynthesisUtterance();
+                message.text = "Welcome to AI iOS Store! My name is Alexa, I'm Developed By Mohamed Ashraf, and I'm your virtual assistant. How can I help you today?";
+                message.lang = 'en-US';
+                message.rate = 0.9; // Speech speed
+                message.pitch = 1; // Voice pitch
+                message.volume = 1; // Volume level
+                
+                // Try to use a female voice if available
+                const voices = speechSynthesis.getVoices();
+                const femaleVoice = voices.find(voice => 
+                    voice.name.includes('Female') || 
+                    voice.name.includes('Samantha') ||
+                    voice.name.includes('Karen') ||
+                    voice.name.includes('Victoria')
+                );
+                
+                if (femaleVoice) {
+                    message.voice = femaleVoice;
+                }
+                
+                window.speechSynthesis.speak(message);
+            }
+        }
+
+        // Audio Control Toggle
+        audioControl.addEventListener('click', function() {
+            isAudioEnabled = !isAudioEnabled;
+            
+            if (isAudioEnabled) {
+                audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioControl.classList.remove('muted');
+                // Stop any current speech
+                window.speechSynthesis.cancel();
+            } else {
+                audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                audioControl.classList.add('muted');
+                // Stop any current speech
+                window.speechSynthesis.cancel();
+            }
+        });
+
+        // Initialize chat with welcome message
+        window.addEventListener('DOMContentLoaded', () => {
+            // Add welcome message after a short delay
+            setTimeout(() => {
+                addBotMessage("اهلا بك انا اليكسا ازاي اقدر اساعدك ؟؟");
+                
+                // Play audio welcome message
+                setTimeout(() => {
+                    playWelcomeMessage();
+                }, 500);
+                
+                // Show app suggestions after welcome message
+                setTimeout(() => {
+                    showAppSuggestions();
+                }, 1000);
+            }, 500);
+        });
+
+        // Function to add a message to the chat
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            const messageText = document.createElement('div');
+            messageText.textContent = text;
+            
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = getCurrentTime();
+            
+            messageDiv.appendChild(messageText);
+            messageDiv.appendChild(messageTime);
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to the bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to add a bot message
+        function addBotMessage(text) {
+            addMessage(text, false);
+        }
+
+        // Function to add a user message
+        function addUserMessage(text) {
+            addMessage(text, true);
+        }
+
+        // Function to get current time in HH:MM format
+        function getCurrentTime() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        // Function to show app suggestions
+        function showAppSuggestions() {
+            appSuggestions.innerHTML = '';
+            
+            Object.keys(appData).forEach(appKey => {
+                const appButton = document.createElement('button');
+                appButton.className = 'app-suggestion';
+                appButton.textContent = appData[appKey].title;
+                appButton.addEventListener('click', () => {
+                    chatInput.value = appData[appKey].title;
+                    sendMessage();
+                });
+                
+                appSuggestions.appendChild(appButton);
+            });
+        }
+
+        // Function to show typing indicator
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to hide typing indicator
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Function to process user message and generate response
+        function processUserMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Check if it's a common question
+            for (const [question, answer] of Object.entries(commonQuestions)) {
+                if (lowerMessage.includes(question.toLowerCase())) {
+                    return answer;
+                }
+            }
+            
+            // Check if it's an app name
+            for (const [appKey, app] of Object.entries(appData)) {
+                if (lowerMessage.includes(app.title.toLowerCase())) {
+                    return `مميزات ${app.title}:\n${app.features.map(feature => `• ${feature}`).join('\n')}`;
+                }
+            }
+            
+            // Default response for unknown queries
+            return "عذراً، لم أفهم سؤالك. يمكنك سؤالني عن:\n- كيفية التحميل\n- التطبيقات المتاحة\n- أي استفسار آخر";
+        }
+
+        // Function to send a message
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message to chat
+            addUserMessage(message);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate bot thinking and response
+            setTimeout(() => {
+                hideTypingIndicator();
+                
+                const response = processUserMessage(message);
+                addBotMessage(response);
+                
+                // Show app suggestions after response
+                showAppSuggestions();
+            }, 1500);
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize voices when page loads
+        window.addEventListener('load', function() {
+            // Wait for voices to load
+            setTimeout(() => {
+                speechSynthesis.getVoices();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
