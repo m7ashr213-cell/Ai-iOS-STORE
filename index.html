@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ai iOS Store - متجر تطبيقات iOS الذكي</title>
+    <title>Ai iOS Store - Smart iOS App Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -141,7 +141,7 @@
         }
 
         .message {
-            max-width: 80%;
+            max-width: 90%;
             padding: 12px 16px;
             border-radius: 18px;
             position: relative;
@@ -170,6 +170,119 @@
             opacity: 0.7;
             margin-top: 5px;
             text-align: right;
+        }
+
+        /* App Card Styles */
+        .app-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.5s ease;
+            max-width: 400px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .app-card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .app-card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .app-card-features {
+            margin-bottom: 15px;
+        }
+
+        .app-card-features h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .app-card-features ul {
+            list-style-type: none;
+            padding-right: 20px;
+        }
+
+        .app-card-features li {
+            margin-bottom: 8px;
+            padding-right: 20px;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .app-card-features li::before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .download-button {
+            display: block;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .download-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .app-suggestions {
@@ -281,7 +394,7 @@
         .audio-control {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background: var(--primary-color);
             color: white;
             border: none;
@@ -335,7 +448,7 @@
             }
 
             .message {
-                max-width: 90%;
+                max-width: 95%;
             }
 
             .app-suggestions {
@@ -353,7 +466,7 @@
 
             .audio-control {
                 bottom: 15px;
-                right: 15px;
+                left: 15px;
                 width: 45px;
                 height: 45px;
             }
@@ -372,6 +485,16 @@
             
             .social-icons {
                 order: 2;
+            }
+            
+            .app-card {
+                max-width: 100%;
+            }
+            
+            .app-card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
             }
         }
     </style>
@@ -437,117 +560,178 @@
     </div>
 
     <script>
-        // App data with features in Arabic
+        // App data with features in Arabic + images + download links
         const appData = {
             whatsapp: {
                 title: "WhatsApp",
+                arabicTitle: "واتساب",
                 features: [
-                    "تحويل كامل لواجهة واتساب أجهزة الآيفون",
-                    "إرسال رسائل غير محدودة بدون قيود",
-                    "مشاركة ملفات بحجم يصل إلى 2 جيجابايت",
-                    "مكالمات فيديو عالية الجودة مع 8 أشخاص",
-                    "نسخ احتياطي تلقائي للدردشات",
-                    "وضع الظلام المميز"
-                ]
+                    "Full transformation of WhatsApp interface for iPhone",
+                    "Send unlimited messages without restrictions",
+                    "Share files up to 2GB in size",
+                    "High quality video calls with 8 people",
+                    "Automatic chat backup",
+                    "Dark mode"
+                ],
+                image: "https://clipart.info/images/ccovers/1499955335whatsapp-icon-logo-png.png",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-MB-WhatsApp/",
+                iconColor: "whatsapp-icon"
             },
             instagram: {
                 title: "Instagram",
+                arabicTitle: "انستجرام",
                 features: [
-                    "تحميل الصور والفيديوهات بجودة عالية",
-                    "تصفح بدون إعلانات مزعجة",
-                    "مشاهدة الستوريات بشكل سري",
-                    "واجهة مستخدم محسنة ومخصصة"
-                ]
+                    "Download photos and videos in high quality",
+                    "Browse without annoying ads",
+                    "View stories anonymously",
+                    "Improved and customized user interface"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP.tcX3B8AAflIboARGnRMnBgHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-iOS-Instagram-Web/",
+                iconColor: "instagram-icon"
             },
             telegram: {
                 title: "Telegram",
+                arabicTitle: "تيليجرام",
                 features: [
-                    "رسائل سرية ذاتية التدمير",
-                    "مكالمات صوت وفيديو عالية الجودة",
-                    "دعم مجموعات كبيرة حتى 200,000 عضو",
-                    "مزامنة فورية عبر جميع الأجهزة"
-                ]
+                    "Self-destructing secret messages",
+                    "High quality voice and video calls",
+                    "Support for large groups up to 200,000 members",
+                    "Instant synchronization across all devices"
+                ],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-iOS-Telegram-/",
+                iconColor: "telegram-icon"
             },
             tiktok: {
                 title: "TikTok",
+                arabicTitle: "تيك توك",
                 features: [
-                    "تحميل الفيديوهات بدون علامة مائية",
-                    "مشاهدة الفيديوهات بدون مقاطعات",
-                    "الوصول إلى جميع المؤثرات مجاناً",
-                    "واجهة مستخدم محسنة وسريعة"
-                ]
+                    "Download videos without watermark",
+                    "Watch videos without interruptions",
+                    "Access to all effects for free",
+                    "Improved and fast user interface"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP._PaaQguBm6xX0R6zsFfGxQHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-iOS-TikTok-Web/",
+                iconColor: "tiktok-icon"
             },
             capcut: {
                 title: "CapCut",
+                arabicTitle: "كاب كت",
                 features: [
-                    "جميع المؤثرات والمرشحات متاحة مجاناً",
-                    "إزالة العلامة المائية تلقائياً",
-                    "دعم تصدير الفيديو بدقة 4K",
-                    "مكتبة موسيقى خلفية شاملة بدون قيود"
-                ]
+                    "All effects and filters available for free",
+                    "Automatic watermark removal",
+                    "4K video export support",
+                    "Comprehensive background music library without restrictions"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP.hGHL79jkVr4vZ5QZFejI9QHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/CupCut-Pro/",
+                iconColor: "capcut-icon"
             },
             inshot: {
                 title: "InShot",
+                arabicTitle: "ان شوت",
                 features: [
-                    "تعديل الفيديو بدون علامة مائية",
-                    "جميع الملصقات والمرشحات متاحة",
-                    "إضافة موسيقى ومؤثرات صوتية متقدمة",
-                    "تصدير بدقة عالية مع معالجة سريعة"
-                ]
+                    "Video editing without watermark",
+                    "All stickers and filters available",
+                    "Add music and advanced sound effects",
+                    "High resolution export with fast processing"
+                ],
+                image: "https://th.bing.com/th/id/R.ecd4c9624cda1329eafc236f84d07f74?rik=oEi7dUiSbfGoWw&pid=ImgRaw&r=0",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-InShot-Pro/",
+                iconColor: "inshot-icon"
             },
             picsart: {
                 title: "Picsart",
+                arabicTitle: "بيكس آرت",
                 features: [
-                    "جميع أدوات التحرير والمرشحات متاحة",
-                    "مكتبة ملصقات ورسومات غير محدودة",
-                    "إزالة الخلفية والخلفيات الذكية",
-                    "تصدير بدقة عالية بدون علامة مائية"
-                ]
+                    "All editing tools and filters available",
+                    "Unlimited stickers and graphics library",
+                    "Background removal and smart backgrounds",
+                    "High resolution export without watermark"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP.T-SCn3GpqvjImMb-1DxDxwHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-Picsart-Pro/",
+                iconColor: "picsart-icon"
             },
             youtube: {
                 title: "YouTube Premium",
+                arabicTitle: "يوتيوب بريميوم",
                 features: [
-                    "مشاهدة الفيديوهات بدون إعلانات مزعجة",
-                    "تشغيل الفيديو في الخلفية",
-                    "تحميل الفيديوهات للمشاهدة بدون إنترنت",
-                    "دعم جودة الفيديو حتى 4K"
-                ]
+                    "Watch videos without annoying ads",
+                    "Background video playback",
+                    "Download videos for offline viewing",
+                    "Support for video quality up to 4K"
+                ],
+                image: "https://1.bp.blogspot.com/-hY5-pNrOcKw/XeI_00cpCgI/AAAAAAAAF4A/J7jS49V8kNozycy0PgY6wfc7SUU9gulTgCLcBGAsYHQ/s1600/Youtube-Icon-square-2340x2340.png",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-YouTube-Premioum/",
+                iconColor: "youtube-icon"
             },
             spotify: {
                 title: "Spotify Premium",
+                arabicTitle: "سبوتيفاي بريميوم",
                 features: [
-                    "الاستماع إلى الموسيقى بدون إعلانات",
-                    "تخطي الأغاني بدون حدود",
-                    "تحميل الأغاني للاستماع بدون إنترنت",
-                    "جودة صوت عالية وميزات تحكم متقدمة"
-                ]
+                    "Listen to music without ads",
+                    "Unlimited song skipping",
+                    "Download songs for offline listening",
+                    "High sound quality and advanced control features"
+                ],
+                image: "https://clipartcraft.com/images/spotify-logo-transparent-app.png",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-Spotify/",
+                iconColor: "spotify-icon"
             },
             thispc: {
                 title: "This PC",
+                arabicTitle: "هذا الكمبيوتر",
                 features: [
-                    "واجهة مستخدم تشبه نظام Windows",
-                    "إدارة سهلة للملفات والمجلدات",
-                    "تشغيل التطبيقات في وضع الكمبيوتر",
-                    "تجربة مستخدم احترافية ومتقدمة"
-                ]
+                    "Windows-like user interface",
+                    "Easy file and folder management",
+                    "Run applications in computer mode",
+                    "Professional and advanced user experience"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP.1Yn781JF4tspKbsRPAsVRwHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-This-PC/",
+                iconColor: "thispc-icon"
+            },
+            studyapps: {
+                title: "Study Apps",
+                arabicTitle: "تطبيقات الدراسة",
+                features: [
+                    "Comprehensive curriculum for secondary education",
+                    "Interactive lessons and exercises",
+                    "Exam preparation materials",
+                    "Progress tracking and performance analytics"
+                ],
+                image: "https://clipartcraft.com/images/study-clipart-1.png",
+                link: "https://m7ashr213-cell.github.io/Study-Apps/",
+                iconColor: "studyapps-icon"
             },
             watchapps: {
                 title: "Cinema Tv Apps",
+                arabicTitle: "تطبيقات الأفلام",
                 features: [
-                    "مشاهدة الأفلام والمسلسلات بدون إعلانات",
-                    "دعم محتوى الأنمي بجودة عالية",
-                    "جميع الميزات المميزة مفعلة مجاناً",
-                    "واجهة مستخدم محسنة وسهلة الاستخدام"
-                ]
+                    "Watch movies and series without ads",
+                    "Support for anime content in high quality",
+                    "All premium features activated for free",
+                    "Improved and easy-to-use user interface"
+                ],
+                image: "https://media.istockphoto.com/vectors/cinema-and-movie-design-vector-id670307858?k=20&m=670307858&s=612x612&w=0&h=Jy1L6OuTgllqt66NbtzIx2Q0AW_U8k1u1CrrygQUOps=",
+                link: "https://m7ashr213-cell.github.io/Watch-Apps/",
+                iconColor: "watchapps-icon"
             },
             iosapps: {
                 title: "iOS Apps",
+                arabicTitle: "تطبيقات iOS",
                 features: [
-                    "مجموعة متنوعة من التطبيقات المميزة",
-                    "تحديثات مستمرة للتطبيقات",
-                    "واجهة بسيطة وسهلة الاستخدام",
-                    "دعم كامل لأحدث إصدارات iOS"
-                ]
+                    "Variety of premium applications",
+                    "Continuous app updates",
+                    "Simple and easy-to-use interface",
+                    "Full support for the latest iOS versions"
+                ],
+                image: "https://thvnext.bing.com/th/id/OIP.Liy9wv46y0WP3_2ZJpTO2AHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                link: "https://m7ashr213-cell.github.io/iOS-Store-iOS-Apps/",
+                iconColor: "iosapps-icon"
             }
         };
 
@@ -655,37 +839,53 @@
             }
         });
 
-        // Initialize chat with welcome message
-        window.addEventListener('DOMContentLoaded', () => {
-            // Add welcome message after a short delay
-            setTimeout(() => {
-                addBotMessage("اهلا بك انا اليكسا ازاي اقدر اساعدك ؟؟");
-                
-                // Play audio welcome message
-                setTimeout(() => {
-                    playWelcomeMessage();
-                }, 500);
-                
-                // Show app suggestions after welcome message
-                setTimeout(() => {
-                    showAppSuggestions();
-                }, 1000);
-            }, 500);
-        });
+        // Function to create app detail card
+        function createAppDetailCard(app) {
+            return `
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <div class="app-card-icon">
+                            <img src="${app.image}" alt="${app.title}">
+                        </div>
+                        <div>
+                            <h3 class="app-card-title">${app.title}</h3>
+                            <p class="app-card-subtitle">${app.arabicTitle}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card-features">
+                        <h4>✨ Features:</h4>
+                        <ul>
+                            ${app.features.map(feature => `
+                                <li>${feature}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <a href="${app.link}" target="_blank" class="download-button">
+                        ⬇️ Download App
+                    </a>
+                </div>
+            `;
+        }
 
         // Function to add a message to the chat
-        function addMessage(text, isUser = false) {
+        function addMessage(text, isUser = false, isHtml = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             
-            const messageText = document.createElement('div');
-            messageText.textContent = text;
+            if (isHtml) {
+                messageDiv.innerHTML = text;
+            } else {
+                const messageText = document.createElement('div');
+                messageText.textContent = text;
+                messageDiv.appendChild(messageText);
+            }
             
             const messageTime = document.createElement('div');
             messageTime.className = 'message-time';
             messageTime.textContent = getCurrentTime();
             
-            messageDiv.appendChild(messageText);
             messageDiv.appendChild(messageTime);
             
             chatMessages.appendChild(messageDiv);
@@ -695,8 +895,8 @@
         }
 
         // Function to add a bot message
-        function addBotMessage(text) {
-            addMessage(text, false);
+        function addBotMessage(text, isHtml = false) {
+            addMessage(text, false, isHtml);
         }
 
         // Function to add a user message
@@ -717,7 +917,7 @@
             Object.keys(appData).forEach(appKey => {
                 const appButton = document.createElement('button');
                 appButton.className = 'app-suggestion';
-                appButton.textContent = appData[appKey].title;
+                appButton.textContent = appData[appKey].title; // English title
                 appButton.addEventListener('click', () => {
                     chatInput.value = appData[appKey].title;
                     sendMessage();
@@ -745,19 +945,61 @@
             // Check if it's a common question
             for (const [question, answer] of Object.entries(commonQuestions)) {
                 if (lowerMessage.includes(question.toLowerCase())) {
-                    return answer;
+                    return { type: 'text', content: answer };
                 }
             }
             
             // Check if it's an app name
             for (const [appKey, app] of Object.entries(appData)) {
-                if (lowerMessage.includes(app.title.toLowerCase())) {
-                    return `مميزات ${app.title}:\n${app.features.map(feature => `• ${feature}`).join('\n')}`;
+                const appName = app.title.toLowerCase();
+                const arabicName = app.arabicTitle.toLowerCase();
+                
+                if (lowerMessage.includes(appName) || 
+                    lowerMessage.includes(arabicName) ||
+                    lowerMessage.includes(appKey.toLowerCase())) {
+                    return { 
+                        type: 'appCard', 
+                        content: createAppDetailCard(app),
+                        appName: app.title
+                    };
                 }
             }
             
             // Default response for unknown queries
-            return "عذراً، لم أفهم سؤالك. يمكنك سؤالني عن:\n- كيفية التحميل\n- التطبيقات المتاحة\n- أي استفسار آخر";
+            return { 
+                type: 'text', 
+                content: "عذراً، لم أفهم سؤالك. يمكنك سؤالني عن:\n- كيفية التحميل\n- التطبيقات المتاحة\n- أي استفسار آخر" 
+            };
+        }
+
+        // Function to speak app response
+        function speakAppResponse(appName) {
+            if (!isAudioEnabled) return;
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                const message = new SpeechSynthesisUtterance();
+                message.text = `This is ${appName} application. Here are its features and download link.`;
+                message.lang = 'en-US';
+                message.rate = 0.9;
+                message.pitch = 1;
+                message.volume = 1;
+                
+                const voices = speechSynthesis.getVoices();
+                const femaleVoice = voices.find(voice => 
+                    voice.name.includes('Female') || 
+                    voice.name.includes('Samantha') ||
+                    voice.name.includes('Karen') ||
+                    voice.name.includes('Victoria')
+                );
+                
+                if (femaleVoice) {
+                    message.voice = femaleVoice;
+                }
+                
+                window.speechSynthesis.speak(message);
+            }
         }
 
         // Function to send a message
@@ -780,7 +1022,19 @@
                 hideTypingIndicator();
                 
                 const response = processUserMessage(message);
-                addBotMessage(response);
+                
+                if (response.type === 'appCard') {
+                    // Add app card to chat
+                    addBotMessage(response.content, true);
+                    
+                    // Play audio response
+                    if (isAudioEnabled) {
+                        speakAppResponse(response.appName);
+                    }
+                } else {
+                    // Add regular text message
+                    addBotMessage(response.content);
+                }
                 
                 // Show app suggestions after response
                 showAppSuggestions();
@@ -794,6 +1048,24 @@
             if (e.key === 'Enter') {
                 sendMessage();
             }
+        });
+
+        // Initialize chat with welcome message
+        window.addEventListener('DOMContentLoaded', () => {
+            // Add welcome message after a short delay
+            setTimeout(() => {
+                addBotMessage("اهلا بك انا اليكسا ازاي اقدر اساعدك ؟؟");
+                
+                // Play audio welcome message
+                setTimeout(() => {
+                    playWelcomeMessage();
+                }, 500);
+                
+                // Show app suggestions after welcome message
+                setTimeout(() => {
+                    showAppSuggestions();
+                }, 1000);
+            }, 500);
         });
 
         // Initialize voices when page loads
